@@ -1,3 +1,6 @@
+I am having troubles with deploying and hosting the website on firebase. Any help would be much appreciated. The test 'npm start' works but is only hosted on localhost:3000.
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
