@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './App.css';
 
 import firebase from 'firebase/app';
@@ -51,15 +51,17 @@ function SignIn() {
 
 function Signout() {
   return auth.currentUser && (
-    <button onClick={() => auth.signOut()}> Sign Out </button>
+    <button id="SignOut" onClick={() => auth.signOut()} > Sign Out </button>
   )
 }
 
 function Dashboard() {
+  const dummy = useRef();
+
   const messagesRef = firestore.collection('messages');
   const query = messagesRef.orderBy('createdAt').limit(25);
 
-  const [messages] = useCollectionData(query, {idField: 'text'});
+  const [messages] = useCollectionData(query, {idField: 'id'});
 
   const [formValue, setFormValue] = useState('');
 
@@ -76,14 +78,18 @@ function Dashboard() {
     });
 
     setFormValue('');
+
+    dummy.current.scrollIntoView({ behavior: 'smooth' });
   }
 
   return (
     <>
-      <div>
+      <main>
+        <div className="head" > <Signout /> </div>
         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
-      </div>
-      <form onSubmit={sendMessage} >
+        <div ref={dummy} ></div>
+      </main>
+      <form onSubmit={sendMessage} className="form" >
         <input value={formValue} onChange={(e) => setFormValue(e.target.value)} />
 
         <button type="submit"> Send </button>
@@ -99,8 +105,8 @@ function ChatMessage(props) {
 
   return (
     <div className={`message ${messageClass}`}>
-      <img src={photoURL} />
-      <p>{text}</p>
+      <div id="pic"><img src={photoURL} className="userPhoto" /></div>
+      <div id="text">{text}</div>
     </div>
   )
 }
