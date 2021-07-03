@@ -8,6 +8,14 @@ import 'firebase/auth';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
+import Card from 'react-bootstrap/Card';
+import Container from 'react-bootstrap/Container';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+
 firebase.initializeApp({
   apiKey: "AIzaSyAJRs9Qd6EY1FJN97C_NtEXQJkrgoeanvE",
   authDomain: "chat-app-73822.firebaseapp.com",
@@ -45,14 +53,14 @@ function SignIn() {
   }
 
   return (
-    <button onClick={signInWithGoogle}> Sign in with Google </button>
+    <Button variant="primary" id="SignIn" onClick={signInWithGoogle}> Sign in with Google </Button>
   )
 }
 
 function Signout() {
   return auth.currentUser && (
-    <button id="SignOut" onClick={() => auth.signOut()} > Sign Out </button>
-  )
+    <Button variant="primary" id="SignOut" onClick={() => auth.signOut()} > Sign Out </Button>
+    )
 }
 
 function Dashboard() {
@@ -85,16 +93,41 @@ function Dashboard() {
   return (
     <>
       <main>
-        <div className="head" > <Signout /> </div>
+      <Container className="heading">
+      <Row>
+      <Col xs lg="4">
+       <Signout />
+      </Col>
+      </Row>
+      </Container>
+
+      <div className="messages">
         {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
         <div ref={dummy} ></div>
-      </main>
-      <form onSubmit={sendMessage} className="form" >
-        <input value={formValue} onChange={(e) => setFormValue(e.target.value)} />
+      </div>
 
-        <button type="submit"> Send </button>
-      </form>
-    </>
+      </main>
+
+      <Container>
+        <form onSubmit={sendMessage} className="form" >
+          <Row>
+          <Col xs lg="6">
+            <InputGroup size="lg" >
+              <InputGroup.Prepend>
+                <InputGroup.Text id="inputGroup-sizing-lg">Message</InputGroup.Text>
+              </InputGroup.Prepend>
+              <FormControl aria-label="Large" aria-describedby="inputGroup-sizing-sm" value={formValue} onChange={(e) => setFormValue(e.target.value)} />
+            </InputGroup>
+          </Col>
+          
+            {/* <input value={formValue} onChange={(e) => setFormValue(e.target.value)} /> */}
+          <Col xs lg="6">
+            <Button variant="success" type="submit"> Send </Button>
+          </Col>
+          </Row>
+        </form>
+      </Container>
+  </>
   )
 }
 
@@ -104,10 +137,12 @@ function ChatMessage(props) {
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received';
 
   return (
-    <div className={`message ${messageClass}`}>
+    <Card className={`message ${messageClass}`}>
       <div id="pic"><img src={photoURL} className="userPhoto" /></div>
-      <div id="text">{text}</div>
-    </div>
+      <Card.Body>
+        {text}
+      </Card.Body>
+    </Card>
   )
 }
 

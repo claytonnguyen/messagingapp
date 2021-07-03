@@ -5,23 +5,29 @@
 
 
 .App-header {
-  padding: 5rem;
+  padding: 5rem 5rem 10rem;
   background-color: #282c34;
   display: inline-flexbox;
   height: 100%;
 }
 
+.heading {
+  height: 3rem;
+  top: 0;
+}
+
 #SignOut {
   position: fixed;
   height: 3rem;
-  top: 0;
-  left: 0;
+  top: 5%;
 }
+
 
 
 .main {
   display: inline-block;
-  width: 80%
+  width: 80%;
+  padding: 10rem;
 }
 
 .userPhoto {
@@ -46,6 +52,7 @@
   align-items: left;
   justify-content: left;
   width: auto;
+  flex-direction: row;
 } 
 
 #pic {
@@ -55,28 +62,30 @@
   text-align: center;
 }
 
-.received #text {
-  color: white;
+.received {
+  color: black;
   margin-left: 10px;
-  background-color: green;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  text-align: left;
   padding: 0rem 2rem;
 }
 
-.sent #text {
-  color: white;
+.sent {
+  color: black;
   margin-left: 10px;
-  background-color: blue;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  text-align: right;
   padding: 0rem 2rem;
+}
+
+.messages {
+  width: 100%
 }
 
 form {
@@ -94,4 +103,11 @@ input {
 button {
   height: 105%;
   width: 19%;
+  z-index: 1;
+} 
+
+button #SignIn {
+  align-items: center;
+  justify-content: center;
 }
+
