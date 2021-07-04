@@ -1,4 +1,4 @@
-I am having troubles with deploying and hosting the website on firebase. Any help would be much appreciated. The test 'npm start' works but is only hosted on localhost:3000.
+Project is available on Firebase hosting at https://chat-app-73822.web.app/
 
 
 # Getting Started with Create React App
