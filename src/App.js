@@ -67,7 +67,7 @@ function Dashboard() {
   const dummy = useRef();
 
   const messagesRef = firestore.collection('messages');
-  const query = messagesRef.orderBy('createdAt').limit(25);
+  const query = messagesRef.orderBy('createdAt', 'desc').limit(25);
 
   const [messages] = useCollectionData(query, {idField: 'id'});
 
@@ -83,6 +83,12 @@ function Dashboard() {
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL
+    })
+    .then((msg) => {
+      console.log("Document added with ID: ", msg.id);
+    })
+    .catch((error) => {
+      console.log("Error adding document: ", error);
     });
 
     setFormValue('');
@@ -102,17 +108,17 @@ function Dashboard() {
       </Container>
 
       <div className="messages">
-        {messages && messages.map(msg => <ChatMessage key={msg.id} message={msg} />)}
+        {messages && messages.slice(0).reverse().map(msg => <ChatMessage key={msg.id} message={msg} />)}
         <div ref={dummy} ></div>
       </div>
 
       </main>
 
-      <Container>
-        <form onSubmit={sendMessage} className="form" >
+      <form onSubmit={sendMessage} className="form" >
+        <Container>
           <Row>
           <Col xs lg="6">
-            <InputGroup size="lg" >
+            <InputGroup size="lg"  >
               <InputGroup.Prepend>
                 <InputGroup.Text id="inputGroup-sizing-lg">Message</InputGroup.Text>
               </InputGroup.Prepend>
@@ -122,11 +128,11 @@ function Dashboard() {
           
             {/* <input value={formValue} onChange={(e) => setFormValue(e.target.value)} /> */}
           <Col xs lg="6">
-            <Button variant="success" type="submit"> Send </Button>
+            <Button variant="success" type="submit" disabled={!formValue} > Send </Button>
           </Col>
           </Row>
-        </form>
-      </Container>
+        </Container>
+      </form>
   </>
   )
 }
